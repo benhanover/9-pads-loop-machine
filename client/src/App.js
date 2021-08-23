@@ -1,5 +1,11 @@
+import Pads from './components/Pads/Pads';
+
 function App() {
-  return <div>Working</div>;
+  return (
+    <div>
+      <Pads />
+    </div>
+  );
 }
 
 export default App;
