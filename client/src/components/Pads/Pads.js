@@ -31,20 +31,81 @@ const Pads = () => {
 
   const [sounds, setSounds] = useState(initialSoundsValue);
   const [playSoundsInterval, setPlaySoundsInterval] = useState();
+  const [shouldIntervalRun, setShouldIntervalRun] = useState(false);
+  const [howls, setHowls] = useState([]);
+
+  const playHowls = () => {
+    console.log(howls);
+    howls.forEach((howlObj) => {
+      howlObj.howl.play();
+    });
+  };
+
+  const stopHowls = () => {
+    howls.forEach((howlObj) => {
+      howlObj.howl.stop();
+    });
+  };
+
+  const startInterval = () => {
+    // case there is a sound playing
+    if (sounds.some((soundObj) => soundObj.on)) {
+      if (!shouldIntervalRun) {
+        playHowls();
+        setShouldIntervalRun(true);
+      }
+      // no sound is playing
+    } else {
+      alert('No Sound Is On');
+    }
+  };
+
+  const stopInterval = () => {
+    stopHowls();
+    setShouldIntervalRun(false);
+  };
 
   useEffect(() => {
-    // case there is a track playing
-    if (sounds.some((soundObj) => soundObj.on)) {
+    sounds.forEach((sound) => {
+      // sound should play and not already in howls
+      if (sound.on && !howls.find((howlObj) => howlObj.name === sound.name)) {
+        const howl = new Howl({
+          src: [sound.sound],
+        });
+        howls.push({ name: sound.name, howl: howl });
+        console.log('setting Howls');
+        setHowls([...howls]);
+      } else {
+        // sound should not be playing but is in howls
+        // prettier-ignore
+        if (!sound.on && howls.find((howlObj) => howlObj.name === sound.name)) {
+            const index = howls.findIndex((howlObj) => howlObj.name === sound.name);
+            if (index !== -1) {
+              howls.splice(index, 1);
+              setHowls([...howls]);
+            }
+          }
+      }
+    });
+  }, [sounds]);
+
+  useEffect(() => {
+    if (shouldIntervalRun) {
       setPlaySoundsInterval(
         setInterval(() => {
           console.log('round');
-        }, 3000)
+          playHowls();
+        }, 8000)
       );
-      // no track is playing
     } else {
       clearInterval(playSoundsInterval);
+      console.log('should not play a track');
     }
-  }, [sounds]);
+  }, [shouldIntervalRun]);
+
+  useEffect(() => {
+    console.log('howls', howls);
+  }, [howls]);
 
   return (
     <div>
@@ -59,6 +120,8 @@ const Pads = () => {
           />
         );
       })}
+      <button onClick={startInterval}>Play</button>
+      <button onClick={stopInterval}>Stop</button>
     </div>
   );
 };
