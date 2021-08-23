@@ -1,4 +1,8 @@
+// import libraries
 import { Howl, Howler } from 'howler';
+
+// import css
+import './Pad.css';
 
 const Pad = ({ name, sound, sounds, setSounds }) => {
   const howl = new Howl({
@@ -11,7 +15,7 @@ const Pad = ({ name, sound, sounds, setSounds }) => {
   };
 
   return (
-    <div>
+    <div className='pad'>
       <h3 onClick={setSound}>{name}</h3>
       {/* prettier-ignore */}
       <button onClick={() => { howl.play()}}>sample</button>

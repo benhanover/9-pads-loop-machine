@@ -1,0 +1,14 @@
+.pads-container {
+  border: 1px solid black;
+}
+.pads {
+  display: flex;
+  flex-direction: column;
+}
+.pads-row {
+  display: flex;
+}
+.pads-buttons-div {
+  display: flex;
+  justify-content: space-evenl;
+}
