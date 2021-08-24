@@ -33,7 +33,6 @@ const Pads = ({
   setPlayIsOn,
 }) => {
   useEffect(() => {
-    console.log('sounds from useeffect', sounds);
     sounds.forEach((sound) => {
       // sound should play and not already in howls
       if (

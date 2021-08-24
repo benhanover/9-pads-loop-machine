@@ -3,6 +3,7 @@ import './Combinations.css';
 
 const Combinations = ({ combinations, refHowls, sounds, setSounds }) => {
   const switchToCombination = (combination) => {
+    console.log('clicked');
     sounds.forEach((soundObj) => {
       soundObj.on = false;
     });

@@ -1,0 +1,18 @@
+.playing-sounds-container {
+  background-color: rgba(255, 255, 255, 0.418);
+  height: 70vh;
+  font-weight: bold;
+  text-align: center;
+}
+
+.playing-sounds-list {
+  font-size: 1.5rem;
+}
+
+.playing-sounds-item {
+  margin: 0.2rem;
+}
+
+.playing-sounds-title {
+  font-size: 2rem;
+}

@@ -6,12 +6,8 @@ import './Buttons.css';
 
 const Buttons = ({
   stopHowls,
-  setSounds,
-  initialSoundsValue,
   refHowls,
   setShouldIntervalRun,
-  playSoundsInterval,
-  setPlaySoundsInterval,
   setPlayIsOn,
   recordIsOn,
   setRecordIsOn,
@@ -44,31 +40,15 @@ const Buttons = ({
       setRecordIsOn(true);
     });
   };
-  const reset = () => {
-    stopHowls(refHowls);
-    setRecordedBlobUrl(false);
-    setRecordedBlob(false);
-    setSounds(initialSoundsValue);
-    refHowls.current = [];
-    refRecorder.current = null;
-    setShouldIntervalRun(false);
-    clearInterval(playSoundsInterval);
-    setPlaySoundsInterval(null);
-    setPlayIsOn(true);
-    setRecordIsOn(true);
-    setCombinations([]);
-    // BUG
-    console.log('reset howls', refHowls.current);
-  };
 
-  const saveCombination = () => {
-    const combinationToAdd = {};
-    combinationToAdd[refCombinationName.current.value] =
-      refHowls.current.slice();
-    combinations.push(combinationToAdd);
-    setCombinations([...combinations]);
-    setShowCombinationInput(false);
-  };
+  // const saveCombination = () => {
+  //   const combinationToAdd = {};
+  //   combinationToAdd[refCombinationName.current.value] =
+  //     refHowls.current.slice();
+  //   combinations.push(combinationToAdd);
+  //   setCombinations([...combinations]);
+  //   setShowCombinationInput(false);
+  // };
 
   const startInterval = () => {
     // BUG
@@ -105,7 +85,7 @@ const Buttons = ({
           </button>
         )}
 
-        {showCombinationInput ? (
+        {/* {showCombinationInput ? (
           <>
             <input ref={refCombinationName} placeholder='Combination Name' />
             <button className='btn buttons' onClick={saveCombination}>
@@ -119,7 +99,7 @@ const Buttons = ({
           >
             Save Combination
           </button>
-        )}
+        )} */}
 
         {recordIsOn ? (
           <button className='btn buttons' onClick={startRecord}>
@@ -130,10 +110,6 @@ const Buttons = ({
             Stop Record
           </button>
         )}
-
-        <button className='btn buttons' onClick={reset}>
-          Reset
-        </button>
       </div>
     </>
   );

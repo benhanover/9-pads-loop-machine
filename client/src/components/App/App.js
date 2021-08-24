@@ -6,6 +6,7 @@ import Pads from '../Pads/Pads';
 import Buttons from '../Buttons/Buttons';
 import Combinations from '../Combinations/Combinations';
 import Record from '../Record/Record';
+import PlayingSounds from '../PlayingSounds/PlayingSounds';
 
 // import css
 import './App.css';
@@ -32,6 +33,15 @@ function App() {
     <div className='app'>
       <section className='left-section'>
         <Record recordedBlobUrl={recordedBlobUrl} recordedBlob={recordedBlob} />
+        <PlayingSounds
+          sounds={sounds}
+          showCombinationInput={showCombinationInput}
+          refCombinationName={refCombinationName}
+          setShowCombinationInput={setShowCombinationInput}
+          refHowls={refHowls}
+          combinations={combinations}
+          setCombinations={setCombinations}
+        />
       </section>
       <section className='middle-section'>
         <h1 className='title'>9 Pads</h1>

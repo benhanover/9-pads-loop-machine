@@ -1,7 +1,7 @@
 .record-div-container {
   display: flex;
   justify-content: center;
-  height: 100%;
+  height: 30vh;
   width: 100%;
 }
 
