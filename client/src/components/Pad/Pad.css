@@ -2,4 +2,25 @@
   border: 1px solid black;
   height: 180px;
   width: 180px;
+  position: relative;
+  background-color: rgba(240, 255, 255, 0.336);
+  cursor: pointer;
+}
+
+.pad:hover {
+  background-color: rgba(219, 145, 226, 0.849);
+}
+
+.sample-button {
+  position: absolute;
+  bottom: 0;
+  right: 30%;
+}
+
+.pad-name {
+  position: absolute;
+  font-size: 1.2rem;
+  top: 10%;
+  font-weight: bold;
+  text-align: center;
 }

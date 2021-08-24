@@ -15,10 +15,17 @@ const Pad = ({ name, sound, sounds, setSounds }) => {
   };
 
   return (
-    <div className='pad'>
-      <h3 onClick={setSound}>{name}</h3>
-      {/* prettier-ignore */}
-      <button onClick={() => { howl.play()}}>sample</button>
+    <div className='pad' onClick={setSound}>
+      <span className='pad-name'>{name}</span>
+      <button
+        className='sample-button btn'
+        onClick={(e) => {
+          e.stopPropagation();
+          howl.play();
+        }}
+      >
+        sample
+      </button>
     </div>
   );
 };

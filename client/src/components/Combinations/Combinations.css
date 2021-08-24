@@ -1,0 +1,21 @@
+.combinations-container {
+  display: flex;
+  justify-content: center;
+}
+
+ul {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.combination {
+  font-size: 2rem;
+  cursor: pointer;
+  width: 100%;
+}
+
+.combination:hover {
+  background-color: rgba(219, 145, 226, 0.849);
+}
