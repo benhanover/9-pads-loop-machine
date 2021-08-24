@@ -1,6 +1,7 @@
 // import libraries
 import { useState, useEffect, useRef } from 'react';
 import { Howl, Howler } from 'howler';
+import RecordRTC, { invokeSaveAsDialog } from 'recordrtc';
 
 // components
 import Pad from '../Pad/Pad';
@@ -35,7 +36,11 @@ const Pads = () => {
   const [sounds, setSounds] = useState(initialSoundsValue);
   const [playSoundsInterval, setPlaySoundsInterval] = useState();
   const [shouldIntervalRun, setShouldIntervalRun] = useState(false);
+  const [showRecord, setShowRecord] = useState(false);
+  const [recordedBlobUrl, setRecordedBlobUrl] = useState(null);
+  const [recordedBlob, setRecordedBlob] = useState(null);
   const refHowls = useRef([]);
+  const refRecorder = useRef();
 
   const playHowls = () => {
     console.log('refHowls', refHowls.current);
@@ -47,6 +52,23 @@ const Pads = () => {
   const stopHowls = () => {
     refHowls.current.forEach((howlObj) => {
       howlObj.howl.stop();
+    });
+  };
+
+  const startRecord = async () => {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    refRecorder.current = RecordRTC(stream, { type: 'audio' });
+    refRecorder.current.startRecording();
+  };
+
+  const stopRecord = () => {
+    refRecorder.current.stopRecording(() => {
+      let blob = refRecorder.current.getBlob();
+      let blobUrl = refRecorder.current.toURL();
+      refRecorder.current.reset();
+      setShowRecord(true);
+      setRecordedBlobUrl(blobUrl);
+      setRecordedBlob(blob);
     });
   };
 
@@ -69,7 +91,6 @@ const Pads = () => {
   };
 
   useEffect(() => {
-    console.log('inside useEffect');
     sounds.forEach((sound) => {
       // sound should play and not already in howls
       if (
@@ -97,7 +118,6 @@ const Pads = () => {
         }
       }
     });
-    console.log('howls', refHowls.current);
   }, [sounds]);
 
   useEffect(() => {
@@ -183,8 +203,26 @@ const Pads = () => {
       <div className='pads-buttons-div'>
         <button onClick={startInterval}>Play</button>
         <button onClick={stopInterval}>Stop</button>
-        <button>Record</button>
+        <button onClick={startRecord}>Record</button>
+        <button onClick={stopRecord}>Stop Record</button>
       </div>
+      {showRecord && (
+        <div>
+          <audio src={recordedBlobUrl} controls autoPlay />
+          <button
+            onClick={() => {
+              setShowRecord(false);
+              setRecordedBlob(false);
+              setRecordedBlobUrl(false);
+            }}
+          >
+            Close
+          </button>
+          <button onClick={() => invokeSaveAsDialog(recordedBlob)}>
+            Download
+          </button>
+        </div>
+      )}
     </div>
   );
 };
