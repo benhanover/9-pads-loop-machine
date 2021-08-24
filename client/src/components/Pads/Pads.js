@@ -39,8 +39,13 @@ const Pads = () => {
   const [showRecord, setShowRecord] = useState(false);
   const [recordedBlobUrl, setRecordedBlobUrl] = useState(null);
   const [recordedBlob, setRecordedBlob] = useState(null);
+  const [playIsOn, setPlayIsOn] = useState(true);
+  const [recordIsOn, setRecordIsOn] = useState(true);
+  const [combinations, setCombinations] = useState([]);
+  const [showCombinationInput, setShowCombinationInput] = useState(false);
   const refHowls = useRef([]);
   const refRecorder = useRef();
+  const refCombinationName = useRef('');
 
   const playHowls = () => {
     console.log('refHowls', refHowls.current);
@@ -59,6 +64,7 @@ const Pads = () => {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     refRecorder.current = RecordRTC(stream, { type: 'audio' });
     refRecorder.current.startRecording();
+    setRecordIsOn(false);
   };
 
   const stopRecord = () => {
@@ -69,7 +75,33 @@ const Pads = () => {
       setShowRecord(true);
       setRecordedBlobUrl(blobUrl);
       setRecordedBlob(blob);
+      setRecordIsOn(true);
     });
+  };
+
+  const reset = () => {
+    stopHowls();
+    setShowRecord(false);
+    setRecordedBlobUrl(false);
+    setRecordedBlob(false);
+    setSounds(initialSoundsValue);
+    refHowls.current = [];
+    refRecorder.current = null;
+    setShouldIntervalRun(false);
+    clearInterval(playSoundsInterval);
+    setPlaySoundsInterval(null);
+    setPlayIsOn(true);
+    setRecordIsOn(true);
+  };
+
+  const saveCombination = () => {
+    const combinationToAdd = {};
+    combinationToAdd[refCombinationName.current.value] =
+      refHowls.current.slice();
+    combinations.push(combinationToAdd);
+    setCombinations([...combinations]);
+    console.log(combinations);
+    setShowCombinationInput(false);
   };
 
   const startInterval = () => {
@@ -80,6 +112,7 @@ const Pads = () => {
         setShouldIntervalRun(true);
       }
       // no sound is playing
+      setPlayIsOn(false);
     } else {
       alert('No Sound Is On');
     }
@@ -88,6 +121,7 @@ const Pads = () => {
   const stopInterval = () => {
     stopHowls();
     setShouldIntervalRun(false);
+    setPlayIsOn(true);
   };
 
   useEffect(() => {
@@ -124,7 +158,6 @@ const Pads = () => {
     if (shouldIntervalRun) {
       setPlaySoundsInterval(
         setInterval(() => {
-          console.log('round');
           playHowls();
         }, 8000)
       );
@@ -201,11 +234,30 @@ const Pads = () => {
         </div>
       </div>
       <div className='pads-buttons-div'>
-        <button onClick={startInterval}>Play</button>
-        <button onClick={stopInterval}>Stop</button>
-        <button onClick={startRecord}>Record</button>
-        <button onClick={stopRecord}>Stop Record</button>
+        {playIsOn ? (
+          <button onClick={startInterval}>Play</button>
+        ) : (
+          <button onClick={stopInterval}>Stop</button>
+        )}
+        <button onClick={reset}>Reset</button>
+        {recordIsOn ? (
+          <button onClick={startRecord}>Record</button>
+        ) : (
+          <button onClick={stopRecord}>Stop Record</button>
+        )}
       </div>
+
+      {showCombinationInput ? (
+        <>
+          <input ref={refCombinationName} placeholder='Combination Name' />
+          <button onClick={saveCombination}>Save</button>
+        </>
+      ) : (
+        <button onClick={() => setShowCombinationInput(true)}>
+          Save Combination
+        </button>
+      )}
+
       {showRecord && (
         <div>
           <audio src={recordedBlobUrl} controls autoPlay />
@@ -214,6 +266,7 @@ const Pads = () => {
               setShowRecord(false);
               setRecordedBlob(false);
               setRecordedBlobUrl(false);
+              refRecorder.current = null;
             }}
           >
             Close
