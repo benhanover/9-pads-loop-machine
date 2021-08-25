@@ -3,12 +3,10 @@ import './Combinations.css';
 
 const Combinations = ({ combinations, refHowls, sounds, setSounds }) => {
   const switchToCombination = (combination) => {
-    console.log('clicked');
     sounds.forEach((soundObj) => {
       soundObj.on = false;
     });
     refHowls.current = Object.values(combination)[0];
-    console.log(refHowls.current);
     for (let i = 0; i < refHowls.current.length; i++) {
       const index = sounds.findIndex(
         (sound) => sound.name === refHowls.current[i].name

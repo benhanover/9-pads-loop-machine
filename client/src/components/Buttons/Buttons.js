@@ -11,15 +11,10 @@ const Buttons = ({
   setPlayIsOn,
   recordIsOn,
   setRecordIsOn,
-  showCombinationInput,
-  refCombinationName,
-  setShowCombinationInput,
   setRecordedBlob,
   setRecordedBlobUrl,
   refRecorder,
   playIsOn,
-  combinations,
-  setCombinations,
   sounds,
   shouldIntervalRun,
   playHowls,
@@ -41,18 +36,7 @@ const Buttons = ({
     });
   };
 
-  // const saveCombination = () => {
-  //   const combinationToAdd = {};
-  //   combinationToAdd[refCombinationName.current.value] =
-  //     refHowls.current.slice();
-  //   combinations.push(combinationToAdd);
-  //   setCombinations([...combinations]);
-  //   setShowCombinationInput(false);
-  // };
-
   const startInterval = () => {
-    // BUG
-    console.log('interval howls', refHowls.current);
     // case there is a sound playing
     if (sounds.some((soundObj) => soundObj.on)) {
       if (!shouldIntervalRun) {
@@ -84,23 +68,6 @@ const Buttons = ({
             Stop
           </button>
         )}
-
-        {/* {showCombinationInput ? (
-          <>
-            <input ref={refCombinationName} placeholder='Combination Name' />
-            <button className='btn buttons' onClick={saveCombination}>
-              Save
-            </button>
-          </>
-        ) : (
-          <button
-            className='btn buttons'
-            onClick={() => setShowCombinationInput(true)}
-          >
-            Save Combination
-          </button>
-        )} */}
-
         {recordIsOn ? (
           <button className='btn buttons' onClick={startRecord}>
             Record

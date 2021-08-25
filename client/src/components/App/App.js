@@ -13,20 +13,33 @@ import './App.css';
 
 // import helpers
 import { initialSoundsValue, playHowls, stopHowls } from './helpers';
+
 function App() {
   // states
+  // sounds keep track of all the pads states, sound = {name: string, sound: blob, on: boolean, id: number}
   const [sounds, setSounds] = useState(initialSoundsValue);
+  // playSoundsInterval holds the interval
   const [playSoundsInterval, setPlaySoundsInterval] = useState();
+  // either create the interval or clears it
   const [shouldIntervalRun, setShouldIntervalRun] = useState(false);
+  // holds the recorded blob url in order to play it
   const [recordedBlobUrl, setRecordedBlobUrl] = useState(null);
+  // holds the recorded blob in order to download it
   const [recordedBlob, setRecordedBlob] = useState(null);
+  // toggle between play and pause button
   const [playIsOn, setPlayIsOn] = useState(true);
+  // toggle between start and stop recording buttons
   const [recordIsOn, setRecordIsOn] = useState(true);
+  // array of all created combinations [{combinationName: [{ name: string, howl: howl }]}]
   const [combinations, setCombinations] = useState([]);
+  // toggle between add combination to the input it self
   const [showCombinationInput, setShowCombinationInput] = useState(false);
   // refs
+  // holds the current tracks to be played [{ name: string, howl: howl }]
   const refHowls = useRef([]);
+  // recordRTC object
   const refRecorder = useRef();
+  // assigned to the combination input
   const refCombinationName = useRef('');
 
   return (
@@ -57,27 +70,16 @@ function App() {
           setPlayIsOn={setPlayIsOn}
         />
         <Buttons
-          recordedBlobUrl={recordedBlobUrl}
           recordIsOn={recordIsOn}
-          showCombinationInput={showCombinationInput}
-          refCombinationName={refCombinationName}
-          setShowCombinationInput={setShowCombinationInput}
           setRecordedBlob={setRecordedBlob}
           setRecordedBlobUrl={setRecordedBlobUrl}
           refRecorder={refRecorder}
-          recordedBlob={recordedBlob}
           playIsOn={playIsOn}
           setRecordIsOn={setRecordIsOn}
           stopHowls={stopHowls}
-          setSounds={setSounds}
-          initialSoundsValue={initialSoundsValue}
           refHowls={refHowls}
           setShouldIntervalRun={setShouldIntervalRun}
-          playSoundsInterval={playSoundsInterval}
-          setPlaySoundsInterval={setPlaySoundsInterval}
           setPlayIsOn={setPlayIsOn}
-          combinations={combinations}
-          setCombinations={setCombinations}
           sounds={sounds}
           shouldIntervalRun={shouldIntervalRun}
           playHowls={playHowls}

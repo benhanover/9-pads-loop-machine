@@ -16,3 +16,12 @@
 .playing-sounds-title {
   font-size: 2rem;
 }
+
+@media only screen and (max-width: 1400px) {
+  .playing-sounds-title {
+    font-size: 1.5rem;
+  }
+  .playing-sounds-list {
+    font-size: 1.2rem;
+  }
+}

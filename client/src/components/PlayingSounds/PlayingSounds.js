@@ -40,7 +40,9 @@ const PlayingSounds = ({
       ) : (
         <button
           className='btn buttons'
-          onClick={() => setShowCombinationInput(true)}
+          onClick={() => {
+            setShowCombinationInput(true);
+          }}
         >
           Save Combination
         </button>

@@ -1,5 +1,5 @@
 // import libraries
-import { Howl, Howler } from 'howler';
+import { Howl } from 'howler';
 
 // import css
 import './Pad.css';
